@@ -1,9 +1,10 @@
 const Discord = require ('discord.js');
 const bot = new Discord.Client();
 
-const token = '';
 
+const ytdl = require("ytdl-core");
 const PREFIX = '--'; 
+var servers = {};
 
 bot.on('ready', () => {
     console.log('El bot esta en linea');
@@ -27,7 +28,7 @@ bot.on('message', message=>{
             message.channel.send(embed2);
             break;
         case 'Hola':
-            message.channel.send('Que pedo puto')
+            message.channel.send("Que pedo puto ya te cargo el payaso perra",{tts : true})
             break;
         case 'twitch':
             message.channel.send('twitch.tv/boggi_174')
@@ -63,28 +64,69 @@ bot.on('message', message=>{
             else{
             vchannel.join().then(connection =>{
                 if (args[1]==='1'){
-               const player= connection.play('E:\mvp.mp3', {volume : 1});
+               const player= connection.play('mvp.mp3', {volume : 1});
                player.on('end', () => vchannel.leave())
                 }
                 else if (args[1]==='2'){ 
-                const player= connection.play('E:\mvp1.mp3', {volume : 1});
+                const player= connection.play('mvp1.mp3', {volume : 1});
                 player.on('end', () => vchannel.leave())
                 }
                 else if (args[1]==='3'){ 
-                    const player= connection.play('E:\mvp2.mp3', {volume : 1});
+                    const player= connection.play('mvp2.mp3', {volume : 1});
                     player.on('end', () => vchannel.leave())
                 }
                 else if (args[1]==='4'){ 
-                        const player= connection.play('E:\mvp3.mp3', {volume : 1});
+                        const player= connection.play('mvp3.mp3', {volume : 1});
                         player.on('end', () => vchannel.leave())
                 }
             })
             }
             break;
+            case 'play':
+                const vchannel3 = message.member.voice.channel;
+            if(!vchannel3){
+                return message.reply('Unete a un canal de voz primero wey');
+            }
+            if(!args[1]){ return message.reply('Pon un link wey')}
+            else{
+            vchannel3.join().then(connection =>{
+                connection.play(ytdl(args[1], {filter : "audioonly"}))
+            })    
+            }
+            break;
+            case 'leave':
+               const vchannel2 = message.member.voice.channel;
+                vchannel2.leave()
+                break;
       
-      
+        
 
     }
 })
+/* Music bot 
 
+
+bot.on('message', message => {
+    switch (args[[0]]){
+        case 'play':
+            if(!args[1]){
+                message.channel.send("Necesitas introducir un link");
+                return;
+            }
+            if(!message.member.vchannel){
+                message.channel.send("Tienes que estar en un canal porfa we");
+                return;
+            }
+            if(!servers[message.guild.id])servers[message.guild.id]={ 
+                queue: []
+            }
+
+            var server = servers[message.guild.id];
+
+            if(!message.guild.voice)
+    }
+});
+*/
+const fs = require('fs');
+const token= fs.readFileSync('token.txt').toString().trim();
 bot.login(token);
