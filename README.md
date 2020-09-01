@@ -1,3 +1,4 @@
 # Soi-Irelia-Bot
 
-Ps ahi sta
+Hello google, pls recruit me
+Hi discord, hire me pls
